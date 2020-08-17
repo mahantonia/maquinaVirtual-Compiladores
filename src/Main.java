@@ -1,6 +1,6 @@
 import Arquivo.Arquivo;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
     public static void main (String[] args) throws Exception {
@@ -9,5 +9,7 @@ public class Main {
         Arquivo ola = new Arquivo();
 
         ola.selecionaArquivo();
+
+
     }
 }

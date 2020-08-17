@@ -100,9 +100,6 @@ public class Instrucoes {
             case "CALL":
                 chamarProcedimentoOuFuncao(opcao, registrador1);
                 break;
-            case "NULL":
-                nada(opcao);
-                break;
             default:
                 System.out.println("Instrucao nao existe");
                 break;

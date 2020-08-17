@@ -93,13 +93,20 @@ public class Arquivo {
     }
 
     private void setPosicaoLinha(String palavraPosicao, String palavra) {
-        String posicao[];
+        String posicao[], teste;
 
         for(int i = 0; i < matrizAuxiliar.size(); i++){
             posicao = matrizAuxiliar.get(i).split(" ");
             if(palavraPosicao.equals(posicao[0])){
-                String teste =  palavra + " " + posicao[2];
-                matrizFinal.add(teste);
+                if(palavra.equals("NULL")){
+                    teste = posicao[2] + " " + palavra;
+                    matrizFinal.add(teste);
+                }else{
+                    teste =  palavra + " " + posicao[2];
+                    matrizFinal.add(teste);
+                }
+
+
             }
         }
     }
@@ -117,8 +124,13 @@ public class Arquivo {
                     System.out.println(conteudoLinhaSeparado[0]);
                     break;
                 case 2:
-                    instrucao.intrucoesTipo2(conteudoLinhaSeparado[0], Integer.parseInt(conteudoLinhaSeparado[1]));
-                    System.out.println(conteudoLinhaSeparado[0]);
+                    if(conteudoLinhaSeparado[1].equals("NULL")){
+                        instrucao.intrucoesTipo1(conteudoLinhaSeparado[1]);
+                        System.out.println(conteudoLinhaSeparado[1]);
+                    }else{
+                        instrucao.intrucoesTipo2(conteudoLinhaSeparado[0], Integer.parseInt(conteudoLinhaSeparado[1]));
+                        System.out.println(conteudoLinhaSeparado[0]);
+                    }
                     break;
                 case 3:
                     instrucao.intrucoesTipo3(conteudoLinhaSeparado[0], Integer.parseInt(conteudoLinhaSeparado[1]), Integer.parseInt(conteudoLinhaSeparado[2]));
