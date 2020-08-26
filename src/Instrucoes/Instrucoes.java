@@ -125,7 +125,8 @@ public class Instrucoes {
 
         for(k = registrador2; k > 0; k--){
             resultado = registrador1 + k;
-            removePilha(resultado);
+            adicionarPosicaoPilha(resultado, s);
+            removePilha(s);
         }
 
         i += 1;

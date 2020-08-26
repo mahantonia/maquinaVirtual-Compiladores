@@ -8,12 +8,11 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Arquivo {
-    public Arquivo(){ }
-
     Instrucoes instrucao = new Instrucoes();
     ArrayList<String> matrizInstrucoes = new ArrayList<>();
     ArrayList<String> matrizAuxiliar = new ArrayList<>();
     ArrayList<String> matrizFinal = new ArrayList<>();
+
 
     public void selecionaArquivo() throws Exception {
         String caminhoArquivo = "";
@@ -44,11 +43,11 @@ public class Arquivo {
         }
         br.close();
         System.out.println(matrizInstrucoes);
-        bla(matrizInstrucoes);
+        matrizSecundaria(matrizInstrucoes);
         separaConteudoLinha();
     }
 
-    private void bla(ArrayList<String> matrizInstrucoes) {
+    private void matrizSecundaria(ArrayList<String> matrizInstrucoes) {
         String teste[];
         for(int i = 0; i < matrizInstrucoes.size(); i++){
             teste = matrizInstrucoes.get(i).split(" ");
@@ -105,13 +104,11 @@ public class Arquivo {
                     teste =  palavra + " " + posicao[2];
                     matrizFinal.add(teste);
                 }
-
-
             }
         }
     }
 
-    private void separaConteudoLinha() {
+    public void separaConteudoLinha() {
         String conteudoLinhaSeparado[] = new String[4];
 
         System.out.println(matrizFinal);
