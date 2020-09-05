@@ -1,6 +1,7 @@
 package Arquivo;
 
 import Instrucoes.Instrucoes;
+import MaquinaVirtual.MaquinaVirtual;
 import Matriz.Matriz;
 
 import javax.swing.*;
@@ -13,11 +14,10 @@ public class Arquivo extends Matriz {
     ArrayList<String> matrizInstrucoes;
     ArrayList<String> matrizAuxiliar;
 
-//    public Arquivo(ArrayList<String> matrizFinal){ super(matrizFinal); }
-
     public Arquivo(){ super();}
 
     public ArrayList<String> getMatrizInstrucoes() { return matrizInstrucoes; }
+    public Instrucoes getInstrucao() { return  instrucao; }
 
     public void selecionaArquivo() throws Exception {
         String caminhoArquivo;
@@ -64,13 +64,10 @@ public class Arquivo extends Matriz {
                 }
             }
         }
-        System.out.println(matrizAuxiliar);
         geraMatrizFinal();
     }
 
     private void geraMatrizFinal() {
-        System.out.println("Instrucao: " + matrizInstrucoes);
-
         for(int i = 0; i < matrizInstrucoes.size(); i++){
             String[] palavra = matrizInstrucoes.get(i).split(" ");
             switch (palavra.length) {
@@ -99,7 +96,6 @@ public class Arquivo extends Matriz {
 
     private void setPosicaoLinha(String palavraPosicao, String palavra) {
         String concatenacao;
-        System.out.print(matrizAuxiliar);
 
         for(int i = 0; i < matrizAuxiliar.size(); i++){
             String[] posicao = matrizAuxiliar.get(i).split(" ");
@@ -115,33 +111,42 @@ public class Arquivo extends Matriz {
         }
     }
 
-    public void separaConteudoLinha() {
+    public int separaConteudoLinha() {
         String conteudo;
 
-        System.out.println(super.getMatrizFinal());
-        while (instrucao.getI() != -1) {
-            conteudo = super.getPosicaoMatriz(instrucao.getI());
-            String[] conteudoLinhaSeparado = conteudo.split(" ");
+        conteudo = super.getPosicaoMatriz(instrucao.getI());
+        String[] conteudoLinhaSeparado = conteudo.split(" ");
 
-            switch(conteudoLinhaSeparado.length){
-                case 1:
-                    instrucao.intrucoesTipo1(conteudoLinhaSeparado[0]);
+        switch(conteudoLinhaSeparado.length){
+            case 1:
+                if(conteudoLinhaSeparado[0].equals("RD")){
+                    return 1;
+                }
+                if(conteudoLinhaSeparado[0].equals("PRN")){
+                    return 2;
+                }
+
+                instrucao.intrucoesTipo1(conteudoLinhaSeparado[0]);
+                System.out.println(conteudoLinhaSeparado[0]);
+                break;
+            case 2:
+                if(conteudoLinhaSeparado[1].equals("NULL")){
+                    instrucao.intrucoesTipo1(conteudoLinhaSeparado[1]);
+                    System.out.println(conteudoLinhaSeparado[1]);
+                }else{
+                    instrucao.intrucoesTipo2(conteudoLinhaSeparado[0], Integer.parseInt(conteudoLinhaSeparado[1]));
                     System.out.println(conteudoLinhaSeparado[0]);
-                    break;
-                case 2:
-                    if(conteudoLinhaSeparado[1].equals("NULL")){
-                        instrucao.intrucoesTipo1(conteudoLinhaSeparado[1]);
-                        System.out.println(conteudoLinhaSeparado[1]);
-                    }else{
-                        instrucao.intrucoesTipo2(conteudoLinhaSeparado[0], Integer.parseInt(conteudoLinhaSeparado[1]));
-                        System.out.println(conteudoLinhaSeparado[0]);
-                    }
-                    break;
-                case 3:
-                    instrucao.intrucoesTipo3(conteudoLinhaSeparado[0], Integer.parseInt(conteudoLinhaSeparado[1]), Integer.parseInt(conteudoLinhaSeparado[2]));
-                    System.out.println(conteudoLinhaSeparado[0]);
-                    break;
-            }
+                }
+                break;
+            case 3:
+                instrucao.intrucoesTipo3(conteudoLinhaSeparado[0], Integer.parseInt(conteudoLinhaSeparado[1]), Integer.parseInt(conteudoLinhaSeparado[2]));
+                System.out.println(conteudoLinhaSeparado[0]);
+                break;
         }
+        return 0;
+    }
+
+    public void leituraInserida(int numero) {
+        instrucao.intrucoesTipo2("RD", numero);
     }
 }

@@ -1,7 +1,6 @@
 package Interface;
 
 import Arquivo.Arquivo;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -28,11 +27,15 @@ public class Interface extends JFrame{
     private JList entrada;
     private JList saida;
 
-    Arquivo arquivo = new Arquivo();
+    DefaultListModel<String> modeloEntrada = new DefaultListModel<>();
+    DefaultListModel<String> modeloSaida = new DefaultListModel<>();
 
     final String[] colunas = new String[]{ "Debug", "Linha", "Intrucao", "Regis1", "Regis2"};
     final String[] colunaDados = new String[]{"Dados"};
     Object[] linhaConteudo = new Object[5];
+    Object[] linhaDados = new Object[1];
+
+    Arquivo arquivo = new Arquivo();
 
     public void start() {
         painelInstrucao = new JPanel();
@@ -122,7 +125,6 @@ public class Interface extends JFrame{
     }
 
     public void criarTabelaEntrada(){
-        DefaultListModel<String> modeloEntrada = new DefaultListModel<>();
         entrada = new JList<>();
         entrada.setModel(modeloEntrada);
 
@@ -132,8 +134,6 @@ public class Interface extends JFrame{
     }
 
     public void criarTabelaSaida(){
-        DefaultListModel<String> modeloSaida = new DefaultListModel<>();
-
         saida = new JList<>();
         saida.setModel(modeloSaida);
 
@@ -174,7 +174,6 @@ public class Interface extends JFrame{
         criaTabelaDados();
         arquivo.selecionaArquivo();
         adicionaArquivoInterface();
-        adicionaDados();
     }
 
     private void adicionaArquivoInterface() {
@@ -215,18 +214,34 @@ public class Interface extends JFrame{
         }
     }
 
-    public void adicionaDados(){
-//        for(int i = 0; i < instrucoes.getDadosM().size(); i++) {
-//            linhaConteudoDados[0] = instrucoes.getDadosM().get(i);
-//            tabelaModeloDados.addRow(linhaConteudoDados);
-//        }
+    public String recebeValor(){
+        return JOptionPane.showInputDialog("Digite um valor: ");
     }
 
-//    public void conteudoLinha(){
-//
-//    }
+    public void insereTabelaDados(){
+        tabelaModeloDados.setNumRows(0);
+        for(int i  = 0; i < arquivo.getInstrucao().getDadosM().size(); i++){
+            String valor = Integer.toString(arquivo.getInstrucao().getDadosM().get(i));
+            linhaDados[0] = valor;
+            tabelaModeloDados.addRow(linhaDados);
+        }
+    }
 
     public void executaArquivo() {
-        arquivo.separaConteudoLinha();
+        while (arquivo.getInstrucao().getI() != -1) {
+            if(arquivo.separaConteudoLinha() == 1){
+                String valor = recebeValor();
+                int numero = Integer.parseInt(valor);
+                System.out.println("Valor: " + numero);
+                arquivo.leituraInserida(numero);
+                modeloEntrada.addElement(valor);
+            }
+            if(arquivo.separaConteudoLinha() == 2){
+                int numero = arquivo.getInstrucao().impressao("PRN");
+                String valor = Integer.toString(numero);
+                modeloSaida.addElement(valor);
+            }
+            insereTabelaDados();
+        }
     }
 }

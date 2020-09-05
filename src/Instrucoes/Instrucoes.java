@@ -1,9 +1,7 @@
 package Instrucoes;
 
 import ConteudoInstrucoes.ConteudoInstrucoes;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Instrucoes extends ConteudoInstrucoes {
     int s, i = 0, k, valor1, valor2, resultado;
@@ -12,8 +10,6 @@ public class Instrucoes extends ConteudoInstrucoes {
     public Instrucoes(ArrayList<String> programaP, ArrayList<Integer> dadosM){
         super(programaP, dadosM);
     }
-
-    Scanner scanner = new Scanner(System.in);
 
     public void intrucoesTipo1(String opcao){
         switch (opcao) {
@@ -68,9 +64,9 @@ public class Instrucoes extends ConteudoInstrucoes {
             case "NULL":
                 nada(opcao);
                 break;
-            case "RD":
-                leitura(opcao);
-                break;
+//            case "RD":
+//                leitura(opcao);
+//                break;
             case "PRN":
                 impressao(opcao);
                 break;
@@ -103,6 +99,9 @@ public class Instrucoes extends ConteudoInstrucoes {
             case "CALL":
                 chamarProcedimentoOuFuncao(opcao, registrador1);
                 break;
+            case "RD":
+                leitura(opcao, registrador1);
+                break;
             default:
                 System.out.println("Instrucao nao existe");
                 break;
@@ -134,7 +133,6 @@ public class Instrucoes extends ConteudoInstrucoes {
 
         i += 1;
         super.addProgramaP(instrucao);
-//        programaP.add(instrucao);
     }
 
     private void alocarMemoria(String instrucao, int registrador1, int registrador2){
@@ -145,17 +143,22 @@ public class Instrucoes extends ConteudoInstrucoes {
         }
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
     /*****************************************************************************************************************/
+    private void leitura(String instrucao, int registrador1) {
+        adicionaPilha(registrador1);
+
+        i += 1;
+        super.addProgramaP(instrucao);
+    }
+
     private void chamarProcedimentoOuFuncao(String instrucao, int registrador1) {
        adicionaPilha(i+1);
 
        i = registrador1;
 
-//       programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -170,14 +173,12 @@ public class Instrucoes extends ConteudoInstrucoes {
 
         removePilha(s);
 
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
     private void desviaSempre(String instrucao, int registrador1) {
         i = registrador1;
 
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -188,7 +189,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         removePilha(s);
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
     /******************************************************************************************************************/
@@ -200,43 +200,36 @@ public class Instrucoes extends ConteudoInstrucoes {
 
       removePilha(s);
 
-//      programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
-    private void impressao(String instrucao) {
+    public int impressao(String instrucao) {
         valor1 = retornaValor(s);
 
-        System.out.println(valor1);
+        System.out.println("PRINTAR: " + valor1);
 
         removePilha(s);
 
         i +=1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
+        return  valor1;
     }
 
-    private void leitura(String instrucao) {
-        System.out.println("Digite um valor");
-        int posicao = scanner.nextInt();
-
-        adicionaPilha(posicao);
-
-        i += 1;
-        //        programaP.add(instrucao);
-        super.addProgramaP(instrucao);
-    }
+//    private void leitura(String instrucao, int registrador1) {
+//        adicionaPilha(registrador1);
+//
+//        i += 1;
+//        super.addProgramaP(instrucao);
+//    }
 
     private void nada(String instrucao) {
         i += 1;
 
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
     private void para(String instrucao) {
         i  = -1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -253,7 +246,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         }
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -270,7 +262,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         }
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -287,7 +278,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         }
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -304,7 +294,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         }
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -321,7 +310,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         }
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -338,7 +326,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         }
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -350,7 +337,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         adicionarPosicaoPilha(s, resultado);
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -367,7 +353,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         }
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -384,7 +369,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         }
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -396,7 +380,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         adicionarPosicaoPilha(s, resultado);
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -410,7 +393,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         removePilha(s);
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -424,7 +406,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         removePilha(s);
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -438,7 +419,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         removePilha(s);
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -452,7 +432,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         removePilha(s);
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -462,7 +441,6 @@ public class Instrucoes extends ConteudoInstrucoes {
         adicionaPilha(conteudo);
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
@@ -470,36 +448,30 @@ public class Instrucoes extends ConteudoInstrucoes {
         adicionaPilha(constante);
 
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
     private void start(String instrucao) {
         s = -1;
         i += 1;
-//        programaP.add(instrucao);
         super.addProgramaP(instrucao);
     }
 
     /***************************************************************************************************************/
     public int retornaValor(int posicao){
-//        return dadosM.get(posicao);
         return super.getDadosM().get(posicao);
     }
 
     public void adicionaPilha(int conteudo){
         s += 1;
-//        dadosM.add(conteudo);
         super.addDadosM(conteudo);
     }
 
     public void adicionarPosicaoPilha(int posicao, int conteudo){
-//        dadosM.set(posicao, conteudo);
         super.setDadosM(posicao, conteudo);
     }
 
     public void removePilha(int posicao){
-//        dadosM.remove(posicao);
         super.removeDadosM(posicao);
         s -= 1;
     }
