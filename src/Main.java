@@ -1,19 +1,21 @@
 import Arquivo.Arquivo;
 import Interface.Interface;
-
-import java.util.ArrayList;
+import MaquinaVirtual.MaquinaVirtual;
 
 public class Main {
-    public static void main (String[] args) throws Exception {
+    public static void main (String[] args) {
         System.out.println("Ola");
-
+//
 //        Arquivo ola = new Arquivo();
-
+//
 //        ola.selecionaArquivo();
 
-        Interface aa = new Interface();
+//        Interface aa = new Interface();
+//
+//        aa.start();
 
-        aa.start();
+        MaquinaVirtual inicioMaquina = new MaquinaVirtual();
 
+        inicioMaquina.start();
     }
 }

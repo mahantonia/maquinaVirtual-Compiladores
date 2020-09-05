@@ -1,33 +1,36 @@
 package Arquivo;
 
 import Instrucoes.Instrucoes;
+import Matriz.Matriz;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Arquivo {
+public class Arquivo extends Matriz {
     Instrucoes instrucao = new Instrucoes();
-    ArrayList<String> matrizInstrucoes = new ArrayList<>();
-    ArrayList<String> matrizAuxiliar = new ArrayList<>();
-    ArrayList<String> matrizFinal = new ArrayList<>();
 
+    ArrayList<String> matrizInstrucoes;
+    ArrayList<String> matrizAuxiliar;
+
+//    public Arquivo(ArrayList<String> matrizFinal){ super(matrizFinal); }
+
+    public Arquivo(){ super();}
+
+    public ArrayList<String> getMatrizInstrucoes() { return matrizInstrucoes; }
 
     public void selecionaArquivo() throws Exception {
-        String caminhoArquivo = "";
-        Component parent = null;
+        String caminhoArquivo;
 
         JFileChooser selecionarArquivo = new JFileChooser();
-        File arquivoSelecionado = null;
 
         selecionarArquivo.setFileFilter(null);
-        int returnVal = selecionarArquivo.showOpenDialog(parent);
+        int returnVal = selecionarArquivo.showOpenDialog(null);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             System.out.println("Voce escolheu o arquivo: "+ selecionarArquivo.getSelectedFile().getName());
             caminhoArquivo = selecionarArquivo.getSelectedFile().getAbsolutePath();
 
-            if(caminhoArquivo != null){
+            if(!caminhoArquivo.equals("null")){
                 System.out.println("Arquivo Selecionado com sucesso");
                 leArquivo(caminhoArquivo);
             }
@@ -35,25 +38,28 @@ public class Arquivo {
     }
 
     private void leArquivo(String caminho) throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader(caminho));
+        matrizInstrucoes = new ArrayList<>();
+
+        BufferedReader conteudo = new BufferedReader(new FileReader(caminho));
         String linha;
-        while (br.ready()) {
-            linha = br.readLine();
+        while (conteudo.ready()) {
+            linha = conteudo.readLine();
             matrizInstrucoes.add(linha);
         }
-        br.close();
-        System.out.println(matrizInstrucoes);
+        conteudo.close();
         matrizSecundaria(matrizInstrucoes);
-        separaConteudoLinha();
     }
 
     private void matrizSecundaria(ArrayList<String> matrizInstrucoes) {
-        String teste[];
+        matrizAuxiliar = new ArrayList<>();
+        String[] separaConteudo;
+
         for(int i = 0; i < matrizInstrucoes.size(); i++){
-            teste = matrizInstrucoes.get(i).split(" ");
-            if(teste.length == 2){
-                if(teste[1].equals("NULL")){
-                    String posicaoNomeLinha = teste[0] + " " + teste[1] + " " + Integer.toString(i);
+            separaConteudo = matrizInstrucoes.get(i).split(" ");
+            if(separaConteudo.length == 2){
+                if(separaConteudo[1].equals("NULL")){
+                    String numeroPosicao = Integer.toString(i);
+                    String posicaoNomeLinha = separaConteudo[0] + " " + separaConteudo[1] + " " + numeroPosicao;
                     matrizAuxiliar.add(posicaoNomeLinha);
                 }
             }
@@ -63,13 +69,13 @@ public class Arquivo {
     }
 
     private void geraMatrizFinal() {
-        String palavra[];
+        System.out.println("Instrucao: " + matrizInstrucoes);
 
         for(int i = 0; i < matrizInstrucoes.size(); i++){
-            palavra = matrizInstrucoes.get(i).split(" ");
+            String[] palavra = matrizInstrucoes.get(i).split(" ");
             switch (palavra.length) {
                 case 1:
-                    matrizFinal.add(palavra[0]);
+                    super.addMatriz(palavra[0]);
                     break;
                 case 2:
                     if (palavra[1].equals("NULL")) {
@@ -79,41 +85,43 @@ public class Arquivo {
                             setPosicaoLinha(palavra[1], palavra[0]);
                         }else{
                             String instrucao = palavra[0] + " " + palavra[1];
-                            matrizFinal.add(instrucao);
+                            super.addMatriz(instrucao);
                         }
                     }
                     break;
                 case 3:
                     String instrucao = palavra[0] + " " + palavra[1] + " " + palavra[2];
-                    matrizFinal.add(instrucao);
+                    super.addMatriz(instrucao);
                     break;
             }
         }
     }
 
     private void setPosicaoLinha(String palavraPosicao, String palavra) {
-        String posicao[], teste;
+        String concatenacao;
+        System.out.print(matrizAuxiliar);
 
         for(int i = 0; i < matrizAuxiliar.size(); i++){
-            posicao = matrizAuxiliar.get(i).split(" ");
+            String[] posicao = matrizAuxiliar.get(i).split(" ");
             if(palavraPosicao.equals(posicao[0])){
                 if(palavra.equals("NULL")){
-                    teste = posicao[2] + " " + palavra;
-                    matrizFinal.add(teste);
+                    concatenacao = posicao[2] + " " + palavra;
+                    super.addMatriz(concatenacao);
                 }else{
-                    teste =  palavra + " " + posicao[2];
-                    matrizFinal.add(teste);
+                    concatenacao =  palavra + " " + posicao[2];
+                    super.addMatriz(concatenacao);
                 }
             }
         }
     }
 
     public void separaConteudoLinha() {
-        String conteudoLinhaSeparado[] = new String[4];
+        String conteudo;
 
-        System.out.println(matrizFinal);
+        System.out.println(super.getMatrizFinal());
         while (instrucao.getI() != -1) {
-            conteudoLinhaSeparado = matrizFinal.get(instrucao.getI()).split(" ");
+            conteudo = super.getPosicaoMatriz(instrucao.getI());
+            String[] conteudoLinhaSeparado = conteudo.split(" ");
 
             switch(conteudoLinhaSeparado.length){
                 case 1:

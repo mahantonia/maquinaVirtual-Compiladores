@@ -3,7 +3,7 @@ package Interface;
 import Arquivo.Arquivo;
 
 import javax.swing.*;
-import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,8 +17,22 @@ public class Interface extends JFrame{
     private JButton botaoExecutar;
     private JButton botaoDeburar;
     private JButton botaoArquivo;
+    private JTable tabela;
+    private JTable tabelaDados;
+    private JScrollPane rolagemTabela;
+    private JScrollPane rolagemTabelaDados;
+    private JScrollPane rolagemEntrada;
+    private JScrollPane rolagemSaida;
+    private DefaultTableModel tabelaModelo;
+    private DefaultTableModel tabelaModeloDados;
+    private JList entrada;
+    private JList saida;
 
     Arquivo arquivo = new Arquivo();
+
+    final String[] colunas = new String[]{ "Debug", "Linha", "Intrucao", "Regis1", "Regis2"};
+    final String[] colunaDados = new String[]{"Dados"};
+    Object[] linhaConteudo = new Object[5];
 
     public void start() {
         painelInstrucao = new JPanel();
@@ -28,7 +42,13 @@ public class Interface extends JFrame{
         botaoExecutar = new JButton("Executar");
         botaoDeburar = new JButton("Depurar");
         botaoArquivo = new JButton("Arquivo");
-        criaComponente();
+        iniciarTela();
+        criaPainel();
+        criaBotao();
+        criaTabelaInstrucao();
+        criaTabelaDados();
+        criarTabelaSaida();
+        criarTabelaEntrada();
     }
     public void iniciarTela(){
         this.setSize(1200,800);
@@ -37,47 +57,89 @@ public class Interface extends JFrame{
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
-        //Ajusta automaticamente o tamanho da janela, alternativa ao setSize()
-//        pack();
-//        setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 
-    public void criaComponente(){
+    public void criaPainel(){
         painelInstrucao.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Instrucoes"));
-        painelInstrucao.setBounds(10,10,500,740);
-        this.add(painelInstrucao);
+        setPosicaoPainel(painelInstrucao, 10, 10, 500, 740);
 
         painelDados.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Dados"));
-        painelDados.setBounds(540,10,300,630);
-        this.add(painelDados);
+        setPosicaoPainel(painelDados, 540, 10, 300, 630);
 
         painelSaida.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Saida"));
-        painelSaida.setBounds(870,10,300,300);
-        this.add(painelSaida);
+        setPosicaoPainel(painelSaida, 870, 10, 300, 300);
 
         painelEntrada.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Entrada de Dados"));
-        painelEntrada.setBounds(870,340,300,300);
-        this.add(painelEntrada);
+        setPosicaoPainel(painelEntrada, 870, 340, 300, 300);
+    }
 
-        botaoExecutar.setBounds(540, 695, 200, 50);
-        botaoExecutar.setBackground(Color.GRAY);
+    public void criaBotao() {
+        setPosicaoBotao(botaoExecutar, 540, 695, 200, 50);
 
-        this.add(botaoExecutar);
+        setPosicaoBotao(botaoDeburar, 752, 695, 200, 50);
 
-        botaoDeburar.setBounds(752, 695, 200, 50);
-        botaoDeburar.setBackground(Color.GRAY);
+        setPosicaoBotao(botaoArquivo, 965, 695, 200, 50);
 
-        this.add(botaoDeburar);
-
-        botaoArquivo.setBounds(965, 695, 200, 50);
-        botaoArquivo.setBackground(Color.GRAY);
-
-        this.add(botaoArquivo);
-
-        iniciarTela();
         criaEventoClick();
+    }
+
+    public void setPosicaoPainel(JPanel name, int x, int y, int width, int height) {
+        name.setBounds(x, y, width, height);
+        this.add(name);
+    }
+
+    public void setPosicaoBotao(JButton button, int x, int y, int width, int height) {
+        button.setBounds(x, y, width, height);
+        button.setBackground(Color.GRAY);
+        this.add(button);
+    }
+
+    public void criaTabelaInstrucao(){
+        tabelaModelo = new DefaultTableModel(colunas, 0);
+        tabelaModelo.setNumRows(0);
+        tabela = new JTable(tabelaModelo);
+        rolagemTabela = new JScrollPane(tabela);
+
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(2);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(2);
+
+        rolagemTabela.setBounds(12,30, 495,718);
+
+        add(rolagemTabela);
+    }
+
+    public void criaTabelaDados(){
+        tabelaModeloDados = new DefaultTableModel(colunaDados, 0);
+        tabelaModeloDados.setNumRows(0);
+        tabelaDados = new JTable(tabelaModeloDados);
+        rolagemTabelaDados = new JScrollPane(tabelaDados);
+
+        rolagemTabelaDados.setBounds(542,32, 296,620);
+
+        add(rolagemTabelaDados);
+    }
+
+    public void criarTabelaEntrada(){
+        DefaultListModel<String> modeloEntrada = new DefaultListModel<>();
+        entrada = new JList<>();
+        entrada.setModel(modeloEntrada);
+
+        rolagemEntrada = new JScrollPane(entrada);
+        rolagemEntrada.setBounds(872,360,296,276);
+        add(rolagemEntrada);
+    }
+
+    public void criarTabelaSaida(){
+        DefaultListModel<String> modeloSaida = new DefaultListModel<>();
+
+        saida = new JList<>();
+        saida.setModel(modeloSaida);
+
+        rolagemSaida = new JScrollPane(saida);
+        rolagemSaida.setBounds(872,30,296,278);
+        add(rolagemSaida);
     }
 
     public void criaEventoClick(){
@@ -108,8 +170,61 @@ public class Interface extends JFrame{
     }
 
     public void abreArquivo() throws Exception {
+        criaTabelaInstrucao();
+        criaTabelaDados();
         arquivo.selecionaArquivo();
+        adicionaArquivoInterface();
+        adicionaDados();
     }
+
+    private void adicionaArquivoInterface() {
+        for(int i = 0; i < arquivo.getMatrizInstrucoes().size(); i++) {
+            String[] palavra = arquivo.getMatrizInstrucoes().get(i).split(" ");
+            switch (palavra.length) {
+                case 1:
+                    linhaConteudo[0] = "";
+                    linhaConteudo[1] = "";
+                    linhaConteudo[2] = palavra[0];
+                    linhaConteudo[3] = "";
+                    linhaConteudo[4] = "";
+                    break;
+                case 2:
+                    if(palavra[1].equals("NULL")){
+                        linhaConteudo[0] = "";
+                        linhaConteudo[1] = palavra[0];
+                        linhaConteudo[2] = palavra[1];
+                        linhaConteudo[3] = "";
+                        linhaConteudo[4] = "";
+                    }else {
+                        linhaConteudo[0] = "";
+                        linhaConteudo[1] = "";
+                        linhaConteudo[2] = palavra[0];
+                        linhaConteudo[3] = palavra[1];
+                        linhaConteudo[4] = "";
+                    }
+                    break;
+                case 3:
+                    linhaConteudo[0] = "";
+                    linhaConteudo[1] = "";
+                    linhaConteudo[2] = palavra[0];
+                    linhaConteudo[3] = palavra[1];
+                    linhaConteudo[4] = palavra[2];
+                    break;
+            }
+            tabelaModelo.addRow(linhaConteudo);
+        }
+    }
+
+    public void adicionaDados(){
+//        for(int i = 0; i < instrucoes.getDadosM().size(); i++) {
+//            linhaConteudoDados[0] = instrucoes.getDadosM().get(i);
+//            tabelaModeloDados.addRow(linhaConteudoDados);
+//        }
+    }
+
+//    public void conteudoLinha(){
+//
+//    }
 
     public void executaArquivo() {
         arquivo.separaConteudoLinha();

@@ -1,15 +1,18 @@
 package Instrucoes;
 
-import Arquivo.Arquivo;
+import ConteudoInstrucoes.ConteudoInstrucoes;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Instrucoes {
+public class Instrucoes extends ConteudoInstrucoes {
     int s, i = 0, k, valor1, valor2, resultado;
 
-    ArrayList<String> programaP = new ArrayList();
-    ArrayList<Integer> dadosM = new ArrayList();
+    public Instrucoes() { super(); }
+    public Instrucoes(ArrayList<String> programaP, ArrayList<Integer> dadosM){
+        super(programaP, dadosM);
+    }
+
     Scanner scanner = new Scanner(System.in);
 
     public void intrucoesTipo1(String opcao){
@@ -130,7 +133,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
+//        programaP.add(instrucao);
     }
 
     private void alocarMemoria(String instrucao, int registrador1, int registrador2){
@@ -141,7 +145,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     /*****************************************************************************************************************/
@@ -150,7 +155,8 @@ public class Instrucoes {
 
        i = registrador1;
 
-       programaP.add(instrucao);
+//       programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void desviaSeFalso(String instrucao, int registrador1) {
@@ -164,13 +170,15 @@ public class Instrucoes {
 
         removePilha(s);
 
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void desviaSempre(String instrucao, int registrador1) {
         i = registrador1;
 
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void armazenaValor(String instrucao, int registrador1) {
@@ -180,7 +188,8 @@ public class Instrucoes {
         removePilha(s);
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
     /******************************************************************************************************************/
 
@@ -191,7 +200,8 @@ public class Instrucoes {
 
       removePilha(s);
 
-      programaP.add(instrucao);
+//      programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void impressao(String instrucao) {
@@ -202,7 +212,8 @@ public class Instrucoes {
         removePilha(s);
 
         i +=1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void leitura(String instrucao) {
@@ -212,18 +223,21 @@ public class Instrucoes {
         adicionaPilha(posicao);
 
         i += 1;
-        programaP.add(instrucao);
+        //        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void nada(String instrucao) {
         i += 1;
 
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void para(String instrucao) {
         i  = -1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void comparaMaiorIgual(String instrucao) {
@@ -239,7 +253,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void comparaMenorIgual(String instrucao) {
@@ -255,7 +270,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void comparaDesigual(String instrucao) {
@@ -271,7 +287,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void comparaIgual(String instrucao) {
@@ -287,7 +304,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void comparaMaior(String instrucao) {
@@ -303,7 +321,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void comparaMenor(String instrucao) {
@@ -319,7 +338,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void negacao(String instrucao) {
@@ -330,7 +350,8 @@ public class Instrucoes {
         adicionarPosicaoPilha(s, resultado);
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void disjuncao(String instrucao) {
@@ -346,7 +367,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void conjuncao(String instrucao) {
@@ -362,7 +384,8 @@ public class Instrucoes {
         }
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void inverteSinal(String instrucao) {
@@ -373,7 +396,8 @@ public class Instrucoes {
         adicionarPosicaoPilha(s, resultado);
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void divisao(String instrucao) {
@@ -386,7 +410,8 @@ public class Instrucoes {
         removePilha(s);
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void multiplicacao(String instrucao) {
@@ -399,7 +424,8 @@ public class Instrucoes {
         removePilha(s);
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void subtrair(String instrucao) {
@@ -412,7 +438,8 @@ public class Instrucoes {
         removePilha(s);
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void adicionar(String instrucao) {
@@ -425,7 +452,8 @@ public class Instrucoes {
         removePilha(s);
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void carregaValor(String instrucao, int posicao) {
@@ -434,39 +462,45 @@ public class Instrucoes {
         adicionaPilha(conteudo);
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void carregaConstante(String instrucao, int constante) {
         adicionaPilha(constante);
 
         i += 1;
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     private void start(String instrucao) {
         s = -1;
         i += 1;
-
-        programaP.add(instrucao);
+//        programaP.add(instrucao);
+        super.addProgramaP(instrucao);
     }
 
     /***************************************************************************************************************/
     public int retornaValor(int posicao){
-        return dadosM.get(posicao);
+//        return dadosM.get(posicao);
+        return super.getDadosM().get(posicao);
     }
 
     public void adicionaPilha(int conteudo){
         s += 1;
-        dadosM.add(conteudo);
+//        dadosM.add(conteudo);
+        super.addDadosM(conteudo);
     }
 
     public void adicionarPosicaoPilha(int posicao, int conteudo){
-        dadosM.set(posicao, conteudo);
+//        dadosM.set(posicao, conteudo);
+        super.setDadosM(posicao, conteudo);
     }
 
     public void removePilha(int posicao){
-        dadosM.remove(posicao);
+//        dadosM.remove(posicao);
+        super.removeDadosM(posicao);
         s -= 1;
     }
 
