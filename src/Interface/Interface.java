@@ -31,9 +31,9 @@ public class Interface extends JFrame{
     DefaultListModel<String> modeloSaida = new DefaultListModel<>();
 
     final String[] colunas = new String[]{ "Debug", "Linha", "Intrucao", "Regis1", "Regis2"};
-    final String[] colunaDados = new String[]{"Dados"};
+    final String[] colunaDados = new String[]{"Endereco", "Valor"};
     Object[] linhaConteudo = new Object[5];
-    Object[] linhaDados = new Object[1];
+    Object[] linhaDados = new Object[2];
 
     Arquivo arquivo = new Arquivo();
 
@@ -154,6 +154,7 @@ public class Interface extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("clicou no botao Deburar");
+                debugArquivoInstrucao();
             }
         });
 
@@ -172,8 +173,52 @@ public class Interface extends JFrame{
     public void abreArquivo() throws Exception {
         criaTabelaInstrucao();
         criaTabelaDados();
+        modeloEntrada.removeAllElements();
+        modeloSaida.removeAllElements();
         arquivo.selecionaArquivo();
         adicionaArquivoInterface();
+    }
+
+    public void executaArquivo() {
+        while (arquivo.getInstrucao().getI() != -1) {
+            int retornoArquivo = arquivo.separaConteudoLinha();
+            if(retornoArquivo == 1){
+                String valor = recebeValor();
+                int numero = Integer.parseInt(valor);
+                System.out.println("Valor: " + numero);
+                arquivo.leituraInserida(numero);
+                modeloEntrada.addElement(valor);
+            }
+            if(retornoArquivo == 2){
+                int numero = arquivo.getInstrucao().impressao("PRN");
+                String valor = Integer.toString(numero);
+                modeloSaida.addElement(valor);
+            }
+           insereTabelaDados();
+        }
+    }
+
+    public void debugArquivoInstrucao() {
+        int valor1 = arquivo.getInstrucao().getI();
+
+        tabela.clearSelection();
+        tabela.changeSelection(valor1,2, false, false);
+        if(valor1 != -1){
+            int retornoArquivo = arquivo.separaConteudoLinha();
+            if(retornoArquivo == 1){
+                String valor = recebeValor();
+                int numero = Integer.parseInt(valor);
+                System.out.println("Valor: " + numero);
+                arquivo.leituraInserida(numero);
+                modeloEntrada.addElement(valor);
+            }
+            if(retornoArquivo == 2){
+                int numero = arquivo.getInstrucao().impressao("PRN");
+                String valor = Integer.toString(numero);
+                modeloSaida.addElement(valor);
+            }
+            insereTabelaDados();
+        }
     }
 
     private void adicionaArquivoInterface() {
@@ -214,34 +259,17 @@ public class Interface extends JFrame{
         }
     }
 
-    public String recebeValor(){
-        return JOptionPane.showInputDialog("Digite um valor: ");
-    }
-
     public void insereTabelaDados(){
         tabelaModeloDados.setNumRows(0);
         for(int i  = 0; i < arquivo.getInstrucao().getDadosM().size(); i++){
             String valor = Integer.toString(arquivo.getInstrucao().getDadosM().get(i));
-            linhaDados[0] = valor;
+            linhaDados[0] = i;
+            linhaDados[1] = valor;
             tabelaModeloDados.addRow(linhaDados);
         }
     }
 
-    public void executaArquivo() {
-        while (arquivo.getInstrucao().getI() != -1) {
-            if(arquivo.separaConteudoLinha() == 1){
-                String valor = recebeValor();
-                int numero = Integer.parseInt(valor);
-                System.out.println("Valor: " + numero);
-                arquivo.leituraInserida(numero);
-                modeloEntrada.addElement(valor);
-            }
-            if(arquivo.separaConteudoLinha() == 2){
-                int numero = arquivo.getInstrucao().impressao("PRN");
-                String valor = Integer.toString(numero);
-                modeloSaida.addElement(valor);
-            }
-            insereTabelaDados();
-        }
+    public String recebeValor(){
+        return JOptionPane.showInputDialog("Digite um valor: ");
     }
 }

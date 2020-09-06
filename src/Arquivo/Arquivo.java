@@ -1,7 +1,6 @@
 package Arquivo;
 
 import Instrucoes.Instrucoes;
-import MaquinaVirtual.MaquinaVirtual;
 import Matriz.Matriz;
 
 import javax.swing.*;
@@ -9,7 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Arquivo extends Matriz {
-    Instrucoes instrucao = new Instrucoes();
+    Instrucoes instrucao;
 
     ArrayList<String> matrizInstrucoes;
     ArrayList<String> matrizAuxiliar;
@@ -20,6 +19,7 @@ public class Arquivo extends Matriz {
     public Instrucoes getInstrucao() { return  instrucao; }
 
     public void selecionaArquivo() throws Exception {
+        instrucao = new Instrucoes();
         String caminhoArquivo;
 
         JFileChooser selecionarArquivo = new JFileChooser();
@@ -58,7 +58,7 @@ public class Arquivo extends Matriz {
             separaConteudo = matrizInstrucoes.get(i).split(" ");
             if(separaConteudo.length == 2){
                 if(separaConteudo[1].equals("NULL")){
-                    String numeroPosicao = Integer.toString(i);
+                    String numeroPosicao = Integer.toString(i + 1);
                     String posicaoNomeLinha = separaConteudo[0] + " " + separaConteudo[1] + " " + numeroPosicao;
                     matrizAuxiliar.add(posicaoNomeLinha);
                 }
@@ -113,6 +113,7 @@ public class Arquivo extends Matriz {
 
     public int separaConteudoLinha() {
         String conteudo;
+        System.out.println("Matriz: " + super.getMatrizFinal());
 
         conteudo = super.getPosicaoMatriz(instrucao.getI());
         String[] conteudoLinhaSeparado = conteudo.split(" ");
@@ -125,7 +126,6 @@ public class Arquivo extends Matriz {
                 if(conteudoLinhaSeparado[0].equals("PRN")){
                     return 2;
                 }
-
                 instrucao.intrucoesTipo1(conteudoLinhaSeparado[0]);
                 System.out.println(conteudoLinhaSeparado[0]);
                 break;

@@ -64,9 +64,6 @@ public class Instrucoes extends ConteudoInstrucoes {
             case "NULL":
                 nada(opcao);
                 break;
-//            case "RD":
-//                leitura(opcao);
-//                break;
             case "PRN":
                 impressao(opcao);
                 break;
@@ -125,11 +122,10 @@ public class Instrucoes extends ConteudoInstrucoes {
 
     private void desalocarMemoria(String instrucao, int registrador1, int registrador2){
 
-        for(k = registrador2; k > 0; k--){
+        for(k = registrador2 - 1; k >= 0; k--){
             resultado = registrador1 + k;
-            adicionarPosicaoPilha(resultado, s);
-            removePilha(s);
-        }
+            dalloc(resultado);
+         }
 
         i += 1;
         super.addProgramaP(instrucao);
@@ -139,11 +135,25 @@ public class Instrucoes extends ConteudoInstrucoes {
 
         for(k = 0; k < registrador2; k++){
             resultado = registrador1 + k;
-            adicionaPilha(resultado);
+            alloc(resultado);
         }
 
         i += 1;
         super.addProgramaP(instrucao);
+    }
+
+    private void alloc(int numero){
+        s += 1;
+        super.addDadosM(numero);
+        valor1 = retornaValor(numero);
+        adicionarPosicaoPilha(s,valor1);
+        adicionarPosicaoPilha(numero, numero);
+    }
+
+    private void dalloc(int numero) {
+        valor1 = retornaValor(s);
+        adicionarPosicaoPilha(numero, valor1);
+        removePilha(s);
     }
 
     /*****************************************************************************************************************/
@@ -478,6 +488,10 @@ public class Instrucoes extends ConteudoInstrucoes {
 
     public int getI() {
         return i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
     }
 
 }
