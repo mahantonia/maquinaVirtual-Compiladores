@@ -35,7 +35,7 @@ public class Interface extends JFrame{
     Object[] linhaConteudo = new Object[5];
     Object[] linhaDados = new Object[2];
 
-    Arquivo arquivo = new Arquivo();
+    Arquivo arquivo;
 
     public void start() {
         painelInstrucao = new JPanel();
@@ -153,7 +153,6 @@ public class Interface extends JFrame{
         botaoDeburar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("clicou no botao Deburar");
                 debugArquivoInstrucao();
             }
         });
@@ -171,6 +170,7 @@ public class Interface extends JFrame{
     }
 
     public void abreArquivo() throws Exception {
+        arquivo = new Arquivo();
         criaTabelaInstrucao();
         criaTabelaDados();
         modeloEntrada.removeAllElements();
@@ -185,7 +185,6 @@ public class Interface extends JFrame{
             if(retornoArquivo == 1){
                 String valor = recebeValor();
                 int numero = Integer.parseInt(valor);
-                System.out.println("Valor: " + numero);
                 arquivo.leituraInserida(numero);
                 modeloEntrada.addElement(valor);
             }
@@ -220,6 +219,8 @@ public class Interface extends JFrame{
             insereTabelaDados();
         }
     }
+
+
 
     private void adicionaArquivoInterface() {
         for(int i = 0; i < arquivo.getMatrizInstrucoes().size(); i++) {

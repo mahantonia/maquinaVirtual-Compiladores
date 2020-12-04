@@ -4,9 +4,9 @@ import ConteudoInstrucoes.ConteudoInstrucoes;
 import java.util.ArrayList;
 
 public class Instrucoes extends ConteudoInstrucoes {
-    int s, i = 0, k, valor1, valor2, resultado;
+    int s, i, k, valor1, valor2, resultado;
 
-    public Instrucoes() { super(); }
+    public Instrucoes() { super(); i = 0;}
     public Instrucoes(ArrayList<String> programaP, ArrayList<Integer> dadosM){
         super(programaP, dadosM);
     }
